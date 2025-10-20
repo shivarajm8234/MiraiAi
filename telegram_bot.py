@@ -29,6 +29,16 @@ from flask import Flask, send_from_directory
 import json
 import time
 
+# Google Sheets storage (optional)
+sheets_enabled = False
+save_to_sheets = None
+try:
+    from google_sheets_storage import init_sheets_storage, save_conversation as save_to_sheets
+    sheets_enabled = True
+except ImportError:
+    logger = logging.getLogger(__name__)
+    logger.warning("⚠️ Google Sheets storage not available. Install: pip install gspread oauth2client")
+
 # Load environment variables
 load_dotenv()
 
@@ -49,6 +59,15 @@ ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID")
 # Conversation memory (user_id -> list of messages)
 conversation_memory: Dict[int, List[Dict[str, str]]] = defaultdict(list)
 MAX_MEMORY_LENGTH = 16  # Increased to remember more context
+
+# Initialize Google Sheets storage
+if sheets_enabled:
+    try:
+        sheets_storage = init_sheets_storage()
+        logger.info("✅ Google Sheets storage initialized")
+    except Exception as e:
+        logger.warning(f"Google Sheets initialization failed: {e}")
+        sheets_enabled = False
 
 # Rate limiting to avoid API throttling
 last_request_time: Dict[int, float] = defaultdict(float)
@@ -610,6 +629,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Generate AI response
     response = generate_ai_response(user_message, user_id)
     
+    # Save to Google Sheets (username, question, answer)
+    if sheets_enabled and save_to_sheets:
+        try:
+            save_to_sheets(username, user_message, response)
+        except Exception as e:
+            logger.error(f"Failed to save to Google Sheets: {e}")
+    
     # Send response
     await update.message.reply_text(response)
 
@@ -637,6 +663,14 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         # Analyze image with context
         response = await analyze_image_with_context(bytes(photo_bytes), caption, user_id)
+        
+        # Save to Google Sheets (username, question, answer)
+        if sheets_enabled and save_to_sheets:
+            try:
+                user_msg = f"[Image] {caption}" if caption else "[Image sent]"
+                save_to_sheets(username, user_msg, response)
+            except Exception as e:
+                logger.error(f"Failed to save to Google Sheets: {e}")
         
         # Send response
         await update.message.reply_text(response)
