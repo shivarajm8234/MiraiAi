@@ -1,5 +1,5 @@
-# Telegram Bot Framework
-python-telegram-bot==20.7
+# Telegram Bot Framework (latest version with Python 3.13 support)
+python-telegram-bot==21.9
 
 # HTTP Requests
 requests>=2.31.0
