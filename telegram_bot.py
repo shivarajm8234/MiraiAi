@@ -579,6 +579,19 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_message = update.message.text
     user_id = update.effective_user.id
     username = update.effective_user.username or update.effective_user.first_name
+    
+    # Try to get phone number from Telegram user data (if shared)
+    user_phone = None
+    try:
+        # Get full user info
+        chat_member = await context.bot.get_chat(user_id)
+        if hasattr(chat_member, 'phone_number'):
+            user_phone = chat_member.phone_number
+    except:
+        # If not available, try from update
+        if hasattr(update.effective_user, 'phone_number'):
+            user_phone = update.effective_user.phone_number
+    
     current_time = time.time()
     
     # Add message to buffer
