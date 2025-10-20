@@ -1,48 +1,3 @@
-// Lightbox functionality
-function openLightbox(imgSrc, caption) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.getElementById('lightbox-caption');
-    
-    lightboxImg.src = imgSrc;
-    lightboxCaption.textContent = caption;
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    lightbox.classList.remove('active');
-    document.body.style.overflow = 'auto';
-}
-
-// Close lightbox on background click
-document.getElementById('lightbox').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeLightbox();
-    }
-});
-
-// Close lightbox on Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeLightbox();
-    }
-});
-
-// Add click handlers to all result images
-document.addEventListener('DOMContentLoaded', function() {
-    const resultItems = document.querySelectorAll('.result-item');
-    resultItems.forEach(item => {
-        const img = item.querySelector('img');
-        const caption = item.querySelector('h3').textContent;
-        
-        img.addEventListener('click', function() {
-            openLightbox(this.src, caption);
-        });
-    });
-});
-
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -223,5 +178,133 @@ document.querySelectorAll('a[href*="t.me"]').forEach(link => {
     link.addEventListener('click', () => {
         console.log('🚀 User clicked bot link!');
         // You can add analytics tracking here
+    });
+});
+
+// Zoom state
+let currentZoom = 1;
+const minZoom = 0.5;
+const maxZoom = 3;
+const zoomStep = 0.25;
+
+// Lightbox functionality for result images
+function openLightbox(imageSrc, title, analysisHTML) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxTitle = document.getElementById('lightbox-title');
+    const lightboxAnalysis = document.getElementById('lightbox-analysis');
+    
+    lightboxImg.src = imageSrc;
+    lightboxTitle.textContent = title;
+    lightboxAnalysis.innerHTML = analysisHTML;
+    
+    // Reset zoom
+    currentZoom = 1;
+    updateZoom();
+    
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    lightbox.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
+    currentZoom = 1; // Reset zoom on close
+}
+
+// Zoom functions
+function zoomIn() {
+    if (currentZoom < maxZoom) {
+        currentZoom += zoomStep;
+        updateZoom();
+    }
+}
+
+function zoomOut() {
+    if (currentZoom > minZoom) {
+        currentZoom -= zoomStep;
+        updateZoom();
+    }
+}
+
+function resetZoom() {
+    currentZoom = 1;
+    updateZoom();
+}
+
+function updateZoom() {
+    const img = document.getElementById('lightbox-img');
+    const zoomLevel = document.getElementById('zoom-level');
+    
+    img.style.transform = `scale(${currentZoom})`;
+    zoomLevel.textContent = `${Math.round(currentZoom * 100)}%`;
+}
+
+// Mouse wheel zoom
+document.getElementById('image-wrapper').addEventListener('wheel', (e) => {
+    e.preventDefault();
+    
+    if (e.deltaY < 0) {
+        zoomIn();
+    } else {
+        zoomOut();
+    }
+}, { passive: false });
+
+// Pan functionality for zoomed images
+let isPanning = false;
+let startX, startY, scrollLeft, scrollTop;
+
+const imageWrapper = document.getElementById('image-wrapper');
+
+imageWrapper.addEventListener('mousedown', (e) => {
+    if (currentZoom > 1) {
+        isPanning = true;
+        startX = e.pageX - imageWrapper.offsetLeft;
+        startY = e.pageY - imageWrapper.offsetTop;
+        scrollLeft = imageWrapper.scrollLeft;
+        scrollTop = imageWrapper.scrollTop;
+    }
+});
+
+imageWrapper.addEventListener('mouseleave', () => {
+    isPanning = false;
+});
+
+imageWrapper.addEventListener('mouseup', () => {
+    isPanning = false;
+});
+
+imageWrapper.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    e.preventDefault();
+    
+    const x = e.pageX - imageWrapper.offsetLeft;
+    const y = e.pageY - imageWrapper.offsetTop;
+    const walkX = (x - startX) * 2;
+    const walkY = (y - startY) * 2;
+    
+    imageWrapper.scrollLeft = scrollLeft - walkX;
+    imageWrapper.scrollTop = scrollTop - walkY;
+});
+
+// Close lightbox on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeLightbox();
+    }
+});
+
+// Add click handlers to result images
+document.querySelectorAll('.result-item img').forEach(img => {
+    img.addEventListener('click', function() {
+        const resultItem = this.closest('.result-item');
+        const title = resultItem.querySelector('h3').textContent;
+        const analysis = resultItem.querySelector('.analysis');
+        
+        if (analysis) {
+            openLightbox(this.src, title, analysis.innerHTML);
+        }
     });
 });
