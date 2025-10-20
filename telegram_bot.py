@@ -8,6 +8,7 @@ import os
 import logging
 import base64
 import threading
+import re
 from typing import Dict, List
 from collections import defaultdict
 from dotenv import load_dotenv
