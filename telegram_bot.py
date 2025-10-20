@@ -684,15 +684,19 @@ def main():
 
 def create_web_app():
     """Create Flask app to serve the website"""
-    app = Flask(__name__, static_folder='website', static_url_path='')
+    import os
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    website_dir = os.path.join(base_dir, 'website')
+    
+    app = Flask(__name__, static_folder=website_dir, static_url_path='')
     
     @app.route('/')
     def index():
-        return send_from_directory('website', 'index.html')
+        return send_from_directory(website_dir, 'index.html')
     
     @app.route('/<path:path>')
     def serve_static(path):
-        return send_from_directory('website', path)
+        return send_from_directory(website_dir, path)
     
     return app
 
