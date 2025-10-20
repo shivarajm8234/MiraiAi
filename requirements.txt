@@ -6,3 +6,6 @@ requests>=2.31.0
 
 # Environment & Utilities
 python-dotenv==1.0.0
+
+# Web Server for Website
+flask>=3.0.0

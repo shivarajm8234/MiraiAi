@@ -1,29 +1,30 @@
 #!/usr/bin/env python3
 """
-Professional Mental Health Support Chatbot for Telegram
-Provides empathetic emotional support with crisis intervention protocol.
+Mental Health Support Telegram Bot with Groq AI Integration
+Provides empathetic, context-aware mental health support
 """
 
 import os
-import re
 import logging
+import base64
+import threading
+from typing import Dict, List
 from collections import defaultdict
-from datetime import datetime
-from typing import Optional, List, Dict
 from dotenv import load_dotenv
+import requests
 
 from telegram import Update
 from telegram.ext import (
     Application,
     CommandHandler,
     MessageHandler,
-    ContextTypes,
     filters,
+    ContextTypes,
 )
-import base64
-from io import BytesIO
 
-import requests
+# Flask for web server
+from flask import Flask, send_from_directory
+
 import json
 import time
 
@@ -681,5 +682,34 @@ def main():
     application.run_polling(allowed_updates=Update.ALL_TYPES)
 
 
+def create_web_app():
+    """Create Flask app to serve the website"""
+    app = Flask(__name__, static_folder='website', static_url_path='')
+    
+    @app.route('/')
+    def index():
+        return send_from_directory('website', 'index.html')
+    
+    @app.route('/<path:path>')
+    def serve_static(path):
+        return send_from_directory('website', path)
+    
+    return app
+
+
+def run_web_server():
+    """Run Flask web server in a separate thread"""
+    app = create_web_app()
+    port = int(os.getenv('PORT', 8080))
+    logger.info(f"🌐 Starting web server on port {port}")
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
+
+
 if __name__ == "__main__":
+    # Start web server in background thread
+    web_thread = threading.Thread(target=run_web_server, daemon=True)
+    web_thread.start()
+    logger.info("✅ Web server started in background")
+    
+    # Start Telegram bot (main thread)
     main()
