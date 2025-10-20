@@ -9,3 +9,7 @@ python-dotenv==1.0.0
 
 # Web Server for Website
 flask>=3.0.0
+
+# Google Sheets Storage (optional)
+gspread>=5.12.0
+oauth2client>=4.1.3
