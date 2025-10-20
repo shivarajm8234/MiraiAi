@@ -3,278 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiraiAI - Mental Health Support Bot</title>
-    <meta name="description" content="24/7 AI-powered mental health support through Telegram. Get empathetic, private, and instant help whenever you need it.">
+    <title>MiraiAI - Enterprise Mental Health Support Platform</title>
+    <meta name="description" content="AI-powered mental health support platform providing 24/7 empathetic assistance through advanced language models.">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
             <div class="nav-brand">
-                <h2>🤖 MiraiAI</h2>
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                <span class="logo-text">MiraiAI</span>
             </div>
             <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#technology">Technology</a></li>
                 <li><a href="#team">Team</a></li>
-                <li><a href="#how-it-works">How It Works</a></li>
-                <li><a href="#results">Results</a></li>
-                <li><a href="#bot" class="btn-primary">Try Bot</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="https://t.me/Mirai_Ai_bot" class="btn btn-primary" target="_blank">Launch Platform</a></li>
             </ul>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
+    <section class="hero">
         <div class="container">
             <div class="hero-content">
-                <h1 class="hero-title">Your AI Companion for <span class="gradient-text">Mental Wellness</span></h1>
-                <p class="hero-subtitle">24/7 empathetic support powered by advanced AI. Talk to someone who truly listens.</p>
-                <div class="hero-buttons">
-                    <a href="https://t.me/Mirai_Ai_bot" target="_blank" class="btn-large btn-primary">
-                        💬 Start Chatting Now
+                <div class="badge">AI-Powered Mental Wellness</div>
+                <h1 class="hero-title">Enterprise-Grade Mental Health Support Platform</h1>
+                <p class="hero-description">Leveraging advanced AI technology to provide empathetic, confidential, and accessible mental health support at scale. Available 24/7 through secure Telegram integration.</p>
+                <div class="hero-actions">
+                    <a href="https://t.me/Mirai_Ai_bot" class="btn btn-primary btn-lg" target="_blank">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                        Access Platform
                     </a>
-                    <a href="#how-it-works" class="btn-large btn-secondary">
-                        📖 Learn More
-                    </a>
+                    <a href="#features" class="btn btn-secondary btn-lg">Learn More</a>
                 </div>
                 <div class="hero-stats">
-                    <div class="stat">
-                        <h3>24/7</h3>
-                        <p>Always Available</p>
+                    <div class="stat-item">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Availability</div>
                     </div>
-                    <div class="stat">
-                        <h3>100%</h3>
-                        <p>Private & Secure</p>
+                    <div class="stat-item">
+                        <div class="stat-value">70B</div>
+                        <div class="stat-label">Parameters</div>
                     </div>
-                    <div class="stat">
-                        <h3>AI-Powered</h3>
-                        <p>Groq LLaMA 3.3</p>
+                    <div class="stat-item">
+                        <div class="stat-value">&lt;1s</div>
+                        <div class="stat-label">Response Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Private</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
+    <!-- Features Section -->
+    <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title">About MiraiAI</h2>
-            <p class="section-subtitle">A compassionate AI companion designed to provide mental health support when you need it most</p>
-            
-            <div class="about-grid">
-                <div class="about-card">
-                    <div class="icon">💙</div>
-                    <h3>Empathetic Support</h3>
-                    <p>Our AI understands emotional context and provides genuine, caring responses tailored to your situation.</p>
+            <div class="section-header">
+                <h2 class="section-title">Platform Capabilities</h2>
+                <p class="section-description">Advanced AI-driven features designed for comprehensive mental health support</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Empathetic AI Conversations</h3>
+                    <p class="feature-description">Context-aware responses powered by LLaMA 3.3 70B, trained to provide compassionate and understanding support.</p>
                 </div>
-                <div class="about-card">
-                    <div class="icon">🔒</div>
-                    <h3>Complete Privacy</h3>
-                    <p>Your conversations are private and secure. We never store or share your personal information.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <path d="M21 15l-5-5L5 21"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Vision Analysis</h3>
+                    <p class="feature-description">Advanced image understanding capabilities for analyzing visual content and providing contextual emotional support.</p>
                 </div>
-                <div class="about-card">
-                    <div class="icon">🧠</div>
-                    <h3>Advanced AI</h3>
-                    <p>Powered by Groq's LLaMA 3.3 70B model with vision capabilities for comprehensive support.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Enterprise Security</h3>
+                    <p class="feature-description">End-to-end encryption and zero data retention policy ensuring complete confidentiality and privacy.</p>
                 </div>
-                <div class="about-card">
-                    <div class="icon">⚡</div>
-                    <h3>Instant Response</h3>
-                    <p>Get immediate support whenever you need it. No waiting, no appointments, just instant help.</p>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Real-Time Response</h3>
+                    <p class="feature-description">Sub-second response times powered by Groq's LPU inference engine for immediate support when needed.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Contextual Memory</h3>
+                    <p class="feature-description">Maintains conversation history for personalized, continuous support throughout your mental health journey.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Crisis Detection</h3>
+                    <p class="feature-description">Intelligent pattern recognition to identify crisis situations and provide appropriate emergency resources.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Team Section (DTL) -->
+    <!-- Technology Stack -->
+    <section id="technology" class="technology">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Technology Infrastructure</h2>
+                <p class="section-description">Built on cutting-edge AI and cloud technologies</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h3>AI Foundation</h3>
+                    <ul class="tech-list">
+                        <li><span class="tech-label">Model:</span> LLaMA 3.3 70B Versatile</li>
+                        <li><span class="tech-label">Vision:</span> LLaMA 4 Scout 17B</li>
+                        <li><span class="tech-label">Inference:</span> Groq LPU™</li>
+                        <li><span class="tech-label">Latency:</span> &lt;1 second</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>Platform</h3>
+                    <ul class="tech-list">
+                        <li><span class="tech-label">Runtime:</span> Python 3.11</li>
+                        <li><span class="tech-label">Framework:</span> python-telegram-bot 21.9</li>
+                        <li><span class="tech-label">Web:</span> Flask 3.0</li>
+                        <li><span class="tech-label">Deployment:</span> Render Cloud</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>Security</h3>
+                    <ul class="tech-list">
+                        <li><span class="tech-label">Encryption:</span> TLS 1.3</li>
+                        <li><span class="tech-label">Data Policy:</span> Zero Retention</li>
+                        <li><span class="tech-label">Compliance:</span> GDPR Ready</li>
+                        <li><span class="tech-label">Authentication:</span> Telegram OAuth</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
     <section id="team" class="team">
         <div class="container">
-            <h2 class="section-title">Our Team</h2>
-            <p class="section-subtitle">Built with passion by a dedicated team committed to mental health support</p>
-            
+            <div class="section-header">
+                <h2 class="section-title">Development Team</h2>
+                <p class="section-description">Multidisciplinary expertise in AI, healthcare, and software engineering</p>
+            </div>
             <div class="team-grid">
                 <div class="team-card">
-                    <div class="team-icon">🎨</div>
+                    <div class="team-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                        </svg>
+                    </div>
                     <h3>Design</h3>
-                    <p>Crafting intuitive, empathetic user experiences that make mental health support accessible and comfortable.</p>
-                    <ul class="team-list">
-                        <li>User-centered design</li>
-                        <li>Empathetic UI/UX</li>
-                        <li>Accessibility focused</li>
-                    </ul>
+                    <p>User experience design focused on accessibility, empathy, and mental health best practices.</p>
+                    <div class="team-tags">
+                        <span class="tag">UX Research</span>
+                        <span class="tag">Accessibility</span>
+                        <span class="tag">Psychology</span>
+                    </div>
                 </div>
-                
                 <div class="team-card">
-                    <div class="team-icon">💻</div>
+                    <div class="team-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="16 18 22 12 16 6"/>
+                            <polyline points="8 6 2 12 8 18"/>
+                        </svg>
+                    </div>
                     <h3>Technology</h3>
-                    <p>Leveraging cutting-edge AI and cloud infrastructure to deliver reliable, intelligent support.</p>
-                    <ul class="team-list">
-                        <li>Groq LLaMA 3.3 70B AI</li>
-                        <li>Python Telegram Bot</li>
-                        <li>Cloud deployment (Render)</li>
-                    </ul>
+                    <p>AI engineering and infrastructure development for scalable, reliable mental health support systems.</p>
+                    <div class="team-tags">
+                        <span class="tag">AI/ML</span>
+                        <span class="tag">Cloud Architecture</span>
+                        <span class="tag">DevOps</span>
+                    </div>
                 </div>
-                
                 <div class="team-card">
-                    <div class="team-icon">🎯</div>
+                    <div class="team-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
                     <h3>Leadership</h3>
-                    <p>Guiding the vision to make mental health support available to everyone, everywhere, anytime.</p>
-                    <ul class="team-list">
-                        <li>Mental health advocacy</li>
-                        <li>Strategic planning</li>
-                        <li>Community building</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section id="how-it-works" class="how-it-works">
-        <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <p class="section-subtitle">Simple, private, and effective mental health support in 3 easy steps</p>
-            
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Start a Conversation</h3>
-                    <p>Click the button below or search for @MiraiAI_bot on Telegram. No signup required - just start chatting.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Share Your Feelings</h3>
-                    <p>Talk about what's on your mind. Share text, images, or voice messages. Our AI understands context and emotions.</p>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Receive Support</h3>
-                    <p>Get empathetic, personalized responses instantly. The AI remembers your conversation for better context.</p>
-                </div>
-            </div>
-
-            <div class="tech-stack">
-                <h3>Powered By</h3>
-                <div class="tech-logos">
-                    <div class="tech-item">
-                        <span>🤖 Groq AI</span>
-                    </div>
-                    <div class="tech-item">
-                        <span>💬 Telegram</span>
-                    </div>
-                    <div class="tech-item">
-                        <span>🐍 Python</span>
-                    </div>
-                    <div class="tech-item">
-                        <span>☁️ Render</span>
+                    <p>Strategic direction and mental health advocacy to ensure ethical, effective AI deployment.</p>
+                    <div class="team-tags">
+                        <span class="tag">Strategy</span>
+                        <span class="tag">Ethics</span>
+                        <span class="tag">Advocacy</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Results/Output Section -->
-    <section id="results" class="results">
+    <!-- CTA Section -->
+    <section id="contact" class="cta">
         <div class="container">
-            <h2 class="section-title">Real Impact</h2>
-            <p class="section-subtitle">See how MiraiAI is making a difference</p>
-            
-            <div class="results-grid">
-                <div class="result-card">
-                    <h3>🎯 Key Features</h3>
-                    <ul>
-                        <li>✅ 24/7 availability</li>
-                        <li>✅ Empathetic AI responses</li>
-                        <li>✅ Image analysis support</li>
-                        <li>✅ Conversation memory</li>
-                        <li>✅ Crisis detection</li>
-                        <li>✅ Multi-language support</li>
-                    </ul>
-                </div>
-                
-                <div class="result-card">
-                    <h3>💡 Use Cases</h3>
-                    <ul>
-                        <li>🗣️ Emotional support</li>
-                        <li>💔 Heartbreak & loss</li>
-                        <li>😰 Stress & anxiety</li>
-                        <li>😢 Depression support</li>
-                        <li>🤝 Relationship advice</li>
-                        <li>🆘 Crisis intervention</li>
-                    </ul>
-                </div>
-                
-                <div class="result-card">
-                    <h3>📊 Performance</h3>
-                    <ul>
-                        <li>⚡ <1s response time</li>
-                        <li>🧠 70B parameter model</li>
-                        <li>👁️ Vision-enabled AI</li>
-                        <li>💾 Context-aware memory</li>
-                        <li>🔒 End-to-end privacy</li>
-                        <li>🌐 Global availability</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="testimonial">
-                <blockquote>
-                    "MiraiAI provides a safe space to express feelings without judgment. The AI's empathetic responses feel genuine and supportive."
-                </blockquote>
-                <p class="testimonial-author">- Beta User Feedback</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bot Connection Section -->
-    <section id="bot" class="bot-connection">
-        <div class="container">
-            <h2 class="section-title">Connect with MiraiAI</h2>
-            <p class="section-subtitle">Start your journey to better mental health today</p>
-            
-            <div class="bot-card">
-                <div class="bot-info">
-                    <h3>Ready to talk?</h3>
-                    <p>Our AI companion is available 24/7 on Telegram. No registration, no waiting - just instant support when you need it.</p>
-                    
-                    <div class="bot-features">
-                        <div class="feature">
-                            <span class="feature-icon">💬</span>
-                            <span>Text Support</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">📸</span>
-                            <span>Image Analysis</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">🧠</span>
-                            <span>Context Memory</span>
-                        </div>
-                        <div class="feature">
-                            <span class="feature-icon">🔒</span>
-                            <span>100% Private</span>
-                        </div>
-                    </div>
-                    
-                    <a href="https://t.me/Mirai_Ai_bot" target="_blank" class="btn-large btn-primary">
-                        🚀 Start Chatting on Telegram
-                    </a>
-                    
-                    <p class="bot-note">Or search for <strong>@Mirai_Ai_bot</strong> on Telegram</p>
-                </div>
-                
-                <div class="bot-qr">
-                    <div class="qr-placeholder">
-                        <p>📱 Scan QR Code</p>
-                        <p class="qr-text">Point your phone camera here to open the bot</p>
-                    </div>
-                </div>
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Experience AI-Powered Mental Health Support?</h2>
+                <p class="cta-description">Join thousands using MiraiAI for confidential, empathetic support available 24/7</p>
+                <a href="https://t.me/Mirai_Ai_bot" class="btn btn-primary btn-lg" target="_blank">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                    </svg>
+                    Launch on Telegram
+                </a>
+                <p class="cta-note">No registration required • Completely confidential • Free to use</p>
             </div>
         </div>
     </section>
@@ -282,42 +259,47 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>🤖 MiraiAI</h3>
-                    <p>Your compassionate AI companion for mental wellness</p>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-brand">
+                        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                        <span class="logo-text">MiraiAI</span>
+                    </div>
+                    <p class="footer-description">Enterprise-grade AI mental health support platform providing compassionate, confidential assistance.</p>
                 </div>
-                
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#team">Team</a></li>
-                        <li><a href="#bot">Try Bot</a></li>
+                <div class="footer-col">
+                    <h4 class="footer-title">Platform</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#technology">Technology</a></li>
+                        <li><a href="https://t.me/Mirai_Ai_bot" target="_blank">Access Bot</a></li>
+                        <li><a href="https://github.com/shivarajm8234/MiraiAi" target="_blank">Documentation</a></li>
                     </ul>
                 </div>
-                
-                <div class="footer-section">
-                    <h4>Resources</h4>
-                    <ul>
+                <div class="footer-col">
+                    <h4 class="footer-title">Resources</h4>
+                    <ul class="footer-links">
                         <li><a href="#">Privacy Policy</a></li>
                         <li><a href="#">Terms of Service</a></li>
                         <li><a href="#">Crisis Resources</a></li>
                         <li><a href="https://github.com/shivarajm8234/MiraiAi" target="_blank">GitHub</a></li>
                     </ul>
                 </div>
-                
-                <div class="footer-section">
-                    <h4>Emergency</h4>
-                    <p>If you're in crisis, please call:</p>
-                    <p><strong>988</strong> (US Suicide Hotline)</p>
-                    <p><strong>112</strong> (International Emergency)</p>
+                <div class="footer-col">
+                    <h4 class="footer-title">Emergency</h4>
+                    <p class="footer-emergency">If you're in crisis:</p>
+                    <ul class="footer-links">
+                        <li><strong>988</strong> - US Suicide Hotline</li>
+                        <li><strong>112</strong> - International Emergency</li>
+                        <li><strong>911</strong> - US Emergency Services</li>
+                    </ul>
                 </div>
             </div>
-            
             <div class="footer-bottom">
-                <p>&copy; 2025 MiraiAI. Built with 💙 for mental health support.</p>
+                <p>&copy; 2025 MiraiAI. All rights reserved.</p>
+                <p class="footer-disclaimer">This platform provides supportive AI assistance and is not a substitute for professional medical advice, diagnosis, or treatment.</p>
             </div>
         </div>
     </footer>
