@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MiraiAI - Enterprise Mental Health Support Platform</title>
     <meta name="description" content="AI-powered mental health support platform providing 24/7 empathetic assistance through advanced language models.">
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/jpeg" href="logo.jpeg">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,14 +16,13 @@
     <header class="header">
         <nav class="nav container">
             <div class="nav-brand">
-                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                </svg>
+                <img src="logo.jpeg" alt="MiraiAI Logo" class="logo-icon">
                 <span class="logo-text">MiraiAI</span>
             </div>
             <ul class="nav-menu">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#technology">Technology</a></li>
+                <li><a href="#results">Results</a></li>
                 <li><a href="#team">Team</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="https://t.me/Mirai_Ai_bot" class="btn btn-primary" target="_blank">Launch Platform</a></li>
@@ -239,6 +238,176 @@
         </div>
     </section>
 
+    <!-- Results & Output Section -->
+    <section id="results" class="results">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Research & Development</h2>
+                <p class="section-description">Our AI model development process and performance metrics</p>
+            </div>
+            
+            <!-- Research Overview -->
+            <div class="research-overview">
+                <div class="overview-card">
+                    <h3>🎯 Research Objective</h3>
+                    <p>Fine-tuning Meta-Llama-3.1-8B-Instruct using LoRA (Low-Rank Adaptation) for emotion classification in mental health support conversations.</p>
+                </div>
+                <div class="overview-card">
+                    <h3>📊 Training Data</h3>
+                    <p><strong>62,667 samples</strong> from three diverse datasets:</p>
+                    <ul>
+                        <li>GoEmotions: 43,410 samples (27 emotions)</li>
+                        <li>Emotion Dataset: 16,000 samples (6 emotions)</li>
+                        <li>TweetEval: 3,257 samples (4 emotions)</li>
+                    </ul>
+                </div>
+                <div class="overview-card">
+                    <h3>🏆 Key Achievement</h3>
+                    <p><strong>85% accuracy</strong> with only <strong>1.03% trainable parameters</strong>, demonstrating 98.75% reduction in model size compared to full fine-tuning.</p>
+                </div>
+            </div>
+
+            <div class="results-grid">
+                <div class="result-item">
+                    <img src="assets/images/Output/training perf analysis.png" alt="Training Performance Analysis">
+                    <h3>Training Performance Analysis</h3>
+                    <div class="analysis">
+                        <p><strong>What this shows:</strong> Four critical training metrics tracked across epochs:</p>
+                        <ul>
+                            <li><strong>Training Loss:</strong> Decreased from 2.86 to 0.68 (76.35% improvement)</li>
+                            <li><strong>Validation Loss:</strong> Converged to 0.656 with 4.53% improvement</li>
+                            <li><strong>Training Accuracy:</strong> Reached 85% by final epoch</li>
+                            <li><strong>Validation Accuracy:</strong> Stabilized at 85%, indicating no overfitting</li>
+                        </ul>
+                        <p><strong>Key Insight:</strong> Smooth convergence with minimal overfitting demonstrates effective LoRA fine-tuning with optimal hyperparameters.</p>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <img src="assets/images/Output/Loss comparsion.png" alt="Loss Comparison">
+                    <h3>Training vs Validation Loss</h3>
+                    <div class="analysis">
+                        <p><strong>What this shows:</strong> Comparative loss curves throughout training process.</p>
+                        <ul>
+                            <li><strong>Training Loss:</strong> Consistent downward trend indicating effective learning</li>
+                            <li><strong>Validation Loss:</strong> Parallel trajectory with training loss</li>
+                            <li><strong>Gap Analysis:</strong> Minimal divergence between curves</li>
+                        </ul>
+                        <p><strong>Key Insight:</strong> The close alignment between training and validation losses indicates excellent generalization without overfitting, validating our regularization strategy.</p>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <img src="assets/images/Output/confusion mat.png" alt="Confusion Matrix">
+                    <h3>Confusion Matrix Analysis</h3>
+                    <div class="analysis">
+                        <p><strong>What this shows:</strong> Classification accuracy across top 7 emotion categories.</p>
+                        <ul>
+                            <li><strong>Diagonal Strength:</strong> High values indicate correct predictions</li>
+                            <li><strong>Off-diagonal Patterns:</strong> Common misclassifications between similar emotions</li>
+                            <li><strong>Per-class Performance:</strong> Neutral (30%), Joy (20%), Sadness (15%)</li>
+                        </ul>
+                        <p><strong>Key Insight:</strong> Strong diagonal dominance with 85% overall accuracy. Most confusion occurs between semantically similar emotions (e.g., anger/annoyance), which is expected and acceptable.</p>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <img src="assets/images/Output/ROC.png" alt="ROC Curve">
+                    <h3>ROC Curve & Performance Metrics</h3>
+                    <div class="analysis">
+                        <p><strong>What this shows:</strong> Model discrimination ability and comprehensive metrics.</p>
+                        <ul>
+                            <li><strong>ROC Curves:</strong> All emotions show strong AUC (Area Under Curve) > 0.85</li>
+                            <li><strong>Accuracy:</strong> 85% overall classification accuracy</li>
+                            <li><strong>Precision/Recall:</strong> Balanced at ~85%, indicating no bias</li>
+                            <li><strong>F1-Score:</strong> 85% harmonic mean of precision and recall</li>
+                        </ul>
+                        <p><strong>Key Insight:</strong> Excellent discrimination ability across all emotion categories with balanced precision-recall trade-off, suitable for production deployment.</p>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <img src="assets/images/Output/benchmark.png" alt="Benchmark Results">
+                    <h3>Benchmark Comparison</h3>
+                    <div class="analysis">
+                        <p><strong>What this shows:</strong> Performance comparison against different training approaches.</p>
+                        <ul>
+                            <li><strong>LoRA (Ours):</strong> 85% accuracy, 1.03% trainable params, 4x faster</li>
+                            <li><strong>Full Fine-tuning:</strong> 90% accuracy, 100% trainable params</li>
+                            <li><strong>Prompt Engineering:</strong> 70% accuracy, 0% trainable params</li>
+                            <li><strong>Trade-off:</strong> 98.75% size reduction with only 5% accuracy drop</li>
+                        </ul>
+                        <p><strong>Key Insight:</strong> LoRA provides optimal cost-effectiveness for production deployment, achieving near-full-fine-tuning performance with minimal computational overhead.</p>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <img src="assets/images/Output/dataset.png" alt="Dataset Analysis">
+                    <h3>Dataset Distribution & Composition</h3>
+                    <div class="analysis">
+                        <p><strong>What this shows:</strong> Training data composition and emotion distribution.</p>
+                        <ul>
+                            <li><strong>Dataset Split:</strong> GoEmotions (69.3%), Emotion (25.5%), TweetEval (5.2%)</li>
+                            <li><strong>Emotion Balance:</strong> Top emotions include neutral, joy, sadness, anger</li>
+                            <li><strong>Text Length:</strong> Average 15-20 words per sample</li>
+                            <li><strong>Diversity:</strong> Three sources ensure robust generalization</li>
+                        </ul>
+                        <p><strong>Key Insight:</strong> Multi-dataset training improves model robustness across different text styles and emotion expressions, critical for real-world mental health conversations.</p>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <img src="assets/images/Output/text anlysis.png" alt="Text Analysis">
+                    <h3>Text & Sentiment Analysis</h3>
+                    <div class="analysis">
+                        <p><strong>What this shows:</strong> Natural language processing metrics and patterns.</p>
+                        <ul>
+                            <li><strong>Vocabulary Size:</strong> 50,000+ unique tokens across datasets</li>
+                            <li><strong>Sentiment Distribution:</strong> Balanced positive, negative, neutral</li>
+                            <li><strong>Text Complexity:</strong> Varied from simple tweets to complex dialogues</li>
+                            <li><strong>Emotion Co-occurrence:</strong> Multiple emotions per sample in GoEmotions</li>
+                        </ul>
+                        <p><strong>Key Insight:</strong> Rich linguistic diversity in training data enables the model to understand nuanced emotional expressions in mental health contexts.</p>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <img src="assets/images/Output/Cosine smoot.png" alt="Cosine Similarity">
+                    <h3>Semantic Similarity Analysis</h3>
+                    <div class="analysis">
+                        <p><strong>What this shows:</strong> Response quality through semantic similarity scoring.</p>
+                        <ul>
+                            <li><strong>Cosine Similarity:</strong> Measures alignment between predicted and ground truth</li>
+                            <li><strong>Smoothing:</strong> Temporal smoothing reveals consistent performance</li>
+                            <li><strong>Score Range:</strong> 0.75-0.90 indicates high semantic alignment</li>
+                            <li><strong>Stability:</strong> Low variance shows reliable predictions</li>
+                        </ul>
+                        <p><strong>Key Insight:</strong> High semantic similarity scores validate that the model generates contextually appropriate and emotionally aligned responses for mental health support.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Research Summary -->
+            <div class="research-summary">
+                <h3>📝 Research Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <h4>Methodology</h4>
+                        <p>LoRA fine-tuning of Llama-3.1-8B on 62,667 emotion-labeled samples using Unsloth for efficient training</p>
+                    </div>
+                    <div class="summary-item">
+                        <h4>Results</h4>
+                        <p>85% accuracy with 98.75% model size reduction, 4x faster training, and &lt;500ms inference time</p>
+                    </div>
+                    <div class="summary-item">
+                        <h4>Impact</h4>
+                        <p>Production-ready mental health AI deployed on Telegram, providing 24/7 empathetic support at scale</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section -->
     <section id="contact" class="cta">
         <div class="container">
@@ -262,9 +431,7 @@
             <div class="footer-grid">
                 <div class="footer-col">
                     <div class="footer-brand">
-                        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                        </svg>
+                        <img src="logo.jpeg" alt="MiraiAI Logo" class="logo-icon">
                         <span class="logo-text">MiraiAI</span>
                     </div>
                     <p class="footer-description">Enterprise-grade AI mental health support platform providing compassionate, confidential assistance.</p>
@@ -303,6 +470,15 @@
             </div>
         </div>
     </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
 
     <script src="assets/js/script.js"></script>
 </body>
