@@ -1,0 +1,80 @@
+🤖 TELEGRAM BOT SETUP GUIDE (OpenRouter API)
+=============================================
+
+✅ YOUR BOT TOKEN IS ALREADY CONFIGURED!
+
+STEP 1: Get OpenRouter API Key
+-------------------------------
+1. Go to: https://openrouter.ai/
+2. Sign up or log in
+3. Go to: https://openrouter.ai/keys
+4. Click "Create Key"
+5. Copy your API key (starts with "sk-or-...")
+
+STEP 2: Configure API Key
+--------------------------
+1. Open the .env file:
+   nano .env
+
+2. Replace the OpenRouter API key:
+   OPENROUTER_API_KEY=sk-or-your-actual-key-here
+
+3. Save and exit (Ctrl+X, then Y, then Enter)
+
+STEP 3: Install Dependencies (SIMPLE!)
+---------------------------------------
+   source venv/bin/activate
+   pip install -r requirements.txt
+
+This will only install:
+- python-telegram-bot (Telegram integration)
+- requests (API calls)
+- python-dotenv (environment variables)
+
+NO HEAVY ML LIBRARIES NEEDED! ✅
+
+STEP 4: Run the Bot
+-------------------
+   source venv/bin/activate
+   python telegram_bot.py
+
+You should see:
+   "Starting Mental Health Support Bot..."
+   "✅ OpenRouter API configured with model: openai/gpt-4o-mini"
+   "Bot is running! Press Ctrl+C to stop."
+
+STEP 5: Test Your Bot
+----------------------
+1. Open Telegram
+2. Search for your bot username
+3. Send: /start
+4. Try: "I'm feeling anxious today"
+
+AVAILABLE MODELS (change MODEL_NAME in .env)
+---------------------------------------------
+- openai/gpt-4o-mini (fast, cheap, recommended)
+- openai/gpt-4o (more capable, more expensive)
+- anthropic/claude-3.5-sonnet (very empathetic)
+- google/gemini-pro (good alternative)
+
+See all models: https://openrouter.ai/models
+
+PRICING (OpenRouter)
+--------------------
+- gpt-4o-mini: ~$0.15 per 1M tokens (very cheap!)
+- Most conversations cost less than $0.01
+
+TROUBLESHOOTING
+---------------
+- Bot doesn't respond? Check TELEGRAM_BOT_TOKEN in .env
+- API errors? Check OPENROUTER_API_KEY is valid
+- No API key? Bot will use fallback responses automatically
+
+ADVANTAGES OF OPENROUTER
+-------------------------
+✅ No GPU needed
+✅ No heavy downloads
+✅ Fast responses
+✅ Multiple AI models available
+✅ Pay-as-you-go pricing
+✅ Works on any machine
