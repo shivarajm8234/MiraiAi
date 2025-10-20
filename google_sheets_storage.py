@@ -83,7 +83,7 @@ class GoogleSheetsStorage:
             
             # Add headers if sheet is empty
             if self.sheet.row_count == 0 or not self.sheet.cell(1, 1).value:
-                self.sheet.append_row(["Username", "User Question", "Bot Answer"])
+                self.sheet.append_row(["Username", "Phone Number", "User Question", "Bot Answer"])
                 logger.info("📋 Added headers to sheet")
             
         except Exception as e:
@@ -97,12 +97,13 @@ class GoogleSheetsStorage:
                 except:
                     pass
     
-    def save_conversation(self, username: str, question: str, answer: str):
+    def save_conversation(self, username: str, phone_number: str, question: str, answer: str):
         """
         Save conversation to Google Sheets
         
         Args:
             username: Telegram username
+            phone_number: User's phone number (if provided)
             question: User's question
             answer: Bot's answer
         """
@@ -110,9 +111,10 @@ class GoogleSheetsStorage:
             return False
         
         try:
-            # Prepare row with only 3 columns
+            # Prepare row with 4 columns
             row = [
                 username or "Unknown",
+                phone_number or "Not provided",
                 question[:500],  # Limit length
                 answer[:1000]    # Limit length
             ]
@@ -135,8 +137,8 @@ def init_sheets_storage():
     sheets_storage = GoogleSheetsStorage()
     return sheets_storage
 
-def save_conversation(username: str, question: str, answer: str):
-    """Save conversation to sheets"""
+def save_conversation(username: str, phone_number: str, question: str, answer: str):
+    """Convenience function to save conversation"""
     if sheets_storage and sheets_storage.enabled:
-        return sheets_storage.save_conversation(username, question, answer)
+        return sheets_storage.save_conversation(username, phone_number, question, answer)
     return False

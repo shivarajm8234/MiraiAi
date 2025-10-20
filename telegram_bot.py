@@ -79,6 +79,38 @@ last_message_time: Dict[int, float] = defaultdict(float)
 MESSAGE_WAIT_TIME = 3  # Wait 3 seconds for more messages before responding
 
 
+def extract_phone_number(text: str) -> str:
+    """
+    Extract phone number from text
+    
+    Args:
+        text: Message text
+        
+    Returns:
+        Phone number if found, None otherwise
+    """
+    if not text:
+        return None
+    
+    # Pattern for phone numbers (supports various formats)
+    # Examples: +91 9876543210, 9876543210, +1-555-123-4567, (555) 123-4567
+    phone_patterns = [
+        r'\+?\d{1,3}[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}',  # +1-555-123-4567
+        r'\+?\d{10,13}',  # +919876543210 or 9876543210
+        r'\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}',  # (555) 123-4567
+    ]
+    
+    for pattern in phone_patterns:
+        match = re.search(pattern, text)
+        if match:
+            phone = match.group(0)
+            # Clean up the phone number
+            phone = re.sub(r'[-.\s()]', '', phone)
+            return phone
+    
+    return None
+
+
 # Crisis detection patterns
 CRISIS_PATTERNS = [
     r'\b(kill|hurt|harm)\s+(myself|me)\b',
@@ -629,10 +661,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Generate AI response
     response = generate_ai_response(user_message, user_id)
     
-    # Save to Google Sheets (username, question, answer)
+    # Get phone number: first try from Telegram profile, then extract from message
+    phone_number = user_phone or extract_phone_number(user_message)
+    
+    # Save to Google Sheets (username, phone, question, answer)
     if sheets_enabled and save_to_sheets:
         try:
-            save_to_sheets(username, user_message, response)
+            save_to_sheets(username, phone_number, user_message, response)
         except Exception as e:
             logger.error(f"Failed to save to Google Sheets: {e}")
     
@@ -646,6 +681,17 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
     user_id = update.effective_user.id
     username = update.effective_user.username or update.effective_user.first_name
+    
+    # Try to get phone number from Telegram user data
+    user_phone = None
+    try:
+        chat_member = await context.bot.get_chat(user_id)
+        if hasattr(chat_member, 'phone_number'):
+            user_phone = chat_member.phone_number
+    except:
+        if hasattr(update.effective_user, 'phone_number'):
+            user_phone = update.effective_user.phone_number
+    
     caption = update.message.caption or ""
     
     logger.info(f"Photo from {username} (ID: {user_id}) with caption: {caption[:50] if caption else 'none'}...")
@@ -664,11 +710,14 @@ async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # Analyze image with context
         response = await analyze_image_with_context(bytes(photo_bytes), caption, user_id)
         
-        # Save to Google Sheets (username, question, answer)
+        # Get phone number: first try from Telegram profile, then extract from caption
+        phone_number = user_phone or (extract_phone_number(caption) if caption else None)
+        
+        # Save to Google Sheets (username, phone, question, answer)
         if sheets_enabled and save_to_sheets:
             try:
                 user_msg = f"[Image] {caption}" if caption else "[Image sent]"
-                save_to_sheets(username, user_msg, response)
+                save_to_sheets(username, phone_number, user_msg, response)
             except Exception as e:
                 logger.error(f"Failed to save to Google Sheets: {e}")
         
