@@ -569,13 +569,15 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
             "- Offer comfort, hope, and perspective\n"
             "- Be SPECIFIC to their exact situation\n"
             "- Remember conversation context and build on it\n"
+            "- CAREFULLY understand the context - read between the lines\n"
+            "- Pay attention to what they're ACTUALLY saying, not assumptions\n"
             "- DO NOT repeat or paraphrase what they said - jump straight to empathy and support\n"
             "- Start with validation, not summary\n\n"
             
             "RESPONSE LENGTH:\n"
-            "- ALWAYS use exactly 3 lines (35-50 words total)\n"
+            "- ALWAYS use exactly 4 lines (50-60 words total)\n"
             "- Keep each line concise and impactful\n"
-            "- No more than 3 lines, even for deep pain\n"
+            "- No more than 3 lines, only acceptable for deep pain\n"
             "- Make every word count\n\n"
             
             "WHAT TO DO:\n"
@@ -603,6 +605,10 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
             "User: 'she was my world'\n"
             "Good: 'Losing someone who was your entire world shatters everything. That kind of love doesn't just disappear, and neither does the pain. You're allowed to grieve this deeply.'\n"
             "Bad: 'Losing her feels like losing a part of yourself. She was your everything... [TOO LONG, EXPLAINING WHAT THEY SAID]'\n\n"
+            
+            "User: 'they are fucking good looking how can i loose them bro?'\n"
+            "Good: 'That fear of losing someone amazing is terrifying. Your insecurity is screaming that you're not enough, but that's the anxiety talking. You have value beyond what you see in the mirror.'\n"
+            "Bad: 'It's tough to see someone you care about with someone else. [MISUNDERSTOOD - they haven't lost them yet!]'\n\n"
             
             "User: 'U know the girl I mentioned she really fucked up whole thing'\n"
             "Good: 'That betrayal cuts so deep. When someone destroys what you built together, the anger and hurt are overwhelming. You deserved better than this.'\n"
