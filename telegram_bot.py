@@ -126,8 +126,9 @@ OFF_TOPIC_PATTERNS = [
     r'\b(science|physics|chemistry|biology|experiment)\b',
     r'\b(geography|capital|country|continent|ocean)\b',
     r'\b(shopping|buy|purchase|amazon|store)\b',
-    r'\b(car|vehicle|engine|repair|mechanic)\b',
     r'\b(travel|vacation|hotel|flight|booking)\b',
+    r'(bought.*car|red car|blue car|what color)',  # Riddles/puzzles about objects
+    r'(riddle|puzzle|brain teaser|logic problem)',  # Explicit riddles
 ]
 
 # Mental health related keywords (to allow)
@@ -555,7 +556,11 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
             "- Anger, fear, emotional regulation\n"
             "- Life transitions, loss, coping strategies\n\n"
             
-            "If asked about unrelated topics (weather, sports, cooking, math, coding, news, etc.), politely decline and redirect to mental health support.\n\n"
+            "**CRITICAL: If asked about unrelated topics (riddles, puzzles, car colors, weather, sports, cooking, math, coding, news, etc.):**\n"
+            "- DO NOT answer the question at all\n"
+            "- DO NOT 'play along' or engage with the off-topic content\n"
+            "- Politely decline and immediately redirect to mental health support\n"
+            "- Keep it brief and redirect\n\n"
             
             "RESPONSE STYLE:\n"
             "- Be warm, caring, and deeply empathetic\n"
@@ -595,6 +600,10 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
             "User: 'U know the girl I mentioned she really fucked up whole thing'\n"
             "Good: 'That pain of betrayal cuts deep. When someone we care about destroys what we had, it leaves us feeling lost and broken. You're allowed to be angry and hurt right now. What happened?'\n"
             "Bad: 'It's clear that this girl's actions have caused you a lot of pain. [WASTES FIRST LINE REPEATING]'\n\n"
+            
+            "User: 'I bought a red car. Then I said it was blue. What color is my car?'\n"
+            "Good: 'I'm here specifically for mental health and emotional support. I can't help with riddles or puzzles. If you're dealing with stress, anxiety, or any emotional challenges, I'm here to listen. 💙'\n"
+            "Bad: 'I'll play along - your car is red. But how are you feeling today? [SHOULD NOT ANSWER OFF-TOPIC QUESTIONS]'\n\n"
             
             "User: 'Shall I kill her'\n"
             "Good: 'I hear how much pain you're in right now. The anger and hurt are so intense that violent thoughts are coming up. But acting on those thoughts would destroy your life too. She hurt you deeply, but you don't have to let that pain turn you into someone you're not. Please call 911 or a crisis line (988) right now. You need support to process this rage safely.'\n\n"
