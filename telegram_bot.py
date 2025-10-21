@@ -246,6 +246,19 @@ def is_mental_health_related(message: str) -> bool:
     """
     message_lower = message.lower()
     
+    # Check for math/calculation patterns first (reject these)
+    math_patterns = [
+        r'^\d+[\+\-\*/]\d+$',  # Simple math like 1+1, 5*3
+        r'^\d+[\+\-\*/]\d+[\+\-\*/]\d+',  # Multiple operations
+        r'what is \d+[\+\-\*/]\d+',
+        r'calculate \d+',
+        r'solve \d+',
+    ]
+    
+    for pattern in math_patterns:
+        if re.search(pattern, message_lower):
+            return False
+    
     # Check if it's a greeting or short message (allow these)
     greeting_patterns = [
         r'^(hi|hello|hey|good morning|good evening|good afternoon)\b',
@@ -256,10 +269,6 @@ def is_mental_health_related(message: str) -> bool:
     for pattern in greeting_patterns:
         if re.search(pattern, message_lower):
             return True
-    
-    # If message is very short (< 10 chars), allow it
-    if len(message.strip()) < 10:
-        return True
     
     # Check for mental health keywords FIRST (allow these)
     for keyword in MENTAL_HEALTH_KEYWORDS:
