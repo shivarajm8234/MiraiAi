@@ -111,6 +111,47 @@ def extract_phone_number(text: str) -> str:
     return None
 
 
+# Non-mental health topic patterns (to reject)
+OFF_TOPIC_PATTERNS = [
+    r'\b(weather|temperature|forecast|rain|snow|sunny)\b',
+    r'\b(recipe|cook|food|restaurant|menu)\b',
+    r'\b(sports|football|basketball|cricket|soccer|match|game score)\b',
+    r'\b(movie|film|tv show|series|netflix|watch)\b',
+    r'\b(math|calculate|equation|solve|formula)\b',
+    r'\b(code|programming|python|javascript|html|css)\b',
+    r'\b(news|politics|election|president|government)\b',
+    r'\b(stock|market|invest|crypto|bitcoin|trading)\b',
+    r'\b(translate|translation|language|dictionary)\b',
+    r'\b(history|historical|ancient|war|battle)\b',
+    r'\b(science|physics|chemistry|biology|experiment)\b',
+    r'\b(geography|capital|country|continent|ocean)\b',
+    r'\b(shopping|buy|purchase|amazon|store)\b',
+    r'\b(car|vehicle|engine|repair|mechanic)\b',
+    r'\b(travel|vacation|hotel|flight|booking)\b',
+]
+
+# Mental health related keywords (to allow)
+MENTAL_HEALTH_KEYWORDS = [
+    'anxious', 'anxiety', 'stress', 'worried', 'nervous', 'panic',
+    'sad', 'depressed', 'depression', 'down', 'hopeless', 'empty', 'worthless',
+    'angry', 'mad', 'furious', 'frustrated', 'rage', 'irritated',
+    'lonely', 'alone', 'isolated', 'nobody',
+    'sleep', 'insomnia', 'tired', 'exhausted', 'nightmare',
+    'relationship', 'breakup', 'broke up', 'left me', 'dumped', 'divorce',
+    'trauma', 'ptsd', 'abuse', 'violence', 'hurt',
+    'suicide', 'suicidal', 'kill myself', 'self-harm', 'cutting',
+    'therapy', 'therapist', 'counseling', 'medication',
+    'bipolar', 'schizophrenia', 'ocd', 'adhd', 'eating disorder',
+    'grief', 'loss', 'death', 'died', 'mourning',
+    'fear', 'phobia', 'scared', 'terrified',
+    'overwhelmed', 'burnout', 'pressure',
+    'self-esteem', 'confidence', 'insecure',
+    'addiction', 'substance', 'alcohol', 'drugs',
+    'mental health', 'emotional', 'feeling', 'feelings', 'emotion',
+    'cope', 'coping', 'struggling', 'suffering',
+    'help', 'support', 'talk', 'listen',
+]
+
 # Crisis detection patterns
 CRISIS_PATTERNS = [
     r'\b(kill|hurt|harm)\s+(myself|me)\b',
@@ -190,6 +231,71 @@ def detect_emergency(message: str) -> bool:
             return True
     
     return False
+
+
+def is_mental_health_related(message: str) -> bool:
+    """
+    Check if message is related to mental health topics.
+    
+    Args:
+        message: User's message text
+        
+    Returns:
+        True if mental health related, False otherwise
+    """
+    message_lower = message.lower()
+    
+    # Check if it's a greeting or short message (allow these)
+    greeting_patterns = [
+        r'^(hi|hello|hey|good morning|good evening|good afternoon)\b',
+        r'^(how are you|what\'?s up|sup)\b',
+        r'^(thanks|thank you|ok|okay|yes|no)\b',
+    ]
+    
+    for pattern in greeting_patterns:
+        if re.search(pattern, message_lower):
+            return True
+    
+    # If message is very short (< 10 chars), allow it
+    if len(message.strip()) < 10:
+        return True
+    
+    # Check for off-topic patterns (reject these)
+    for pattern in OFF_TOPIC_PATTERNS:
+        if re.search(pattern, message_lower, re.IGNORECASE):
+            return False
+    
+    # Check for mental health keywords (allow these)
+    for keyword in MENTAL_HEALTH_KEYWORDS:
+        if keyword in message_lower:
+            return True
+    
+    # If message contains question words but no mental health keywords, it might be off-topic
+    question_words = ['what', 'how', 'when', 'where', 'who', 'why', 'which', 'can you', 'tell me']
+    has_question = any(word in message_lower for word in question_words)
+    
+    # If it's a question without mental health keywords, likely off-topic
+    if has_question and len(message.split()) > 5:
+        return False
+    
+    # Default: allow (give benefit of doubt for ambiguous messages)
+    return True
+
+
+def get_off_topic_response() -> str:
+    """
+    Return polite response for off-topic questions.
+    
+    Returns:
+        Response redirecting to mental health topics
+    """
+    return (
+        "I'm specifically designed to provide mental health and emotional support. "
+        "I can't help with that particular topic.\n\n"
+        "If you're dealing with stress, anxiety, relationship issues, or any emotional challenges, "
+        "I'm here to listen and support you. 💙\n\n"
+        "What's on your mind emotionally?"
+    )
 
 
 def get_emergency_response() -> str:
@@ -423,6 +529,17 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
         system_prompt = (
             "You are a deeply empathetic mental health support companion. Your role is to provide genuine emotional support with warmth and care.\n\n"
             
+            "**CRITICAL: SCOPE RESTRICTION**\n"
+            "You ONLY provide support for mental health, emotional wellbeing, and psychological topics including:\n"
+            "- Anxiety, depression, stress, trauma, grief\n"
+            "- Relationship issues, breakups, loneliness\n"
+            "- Self-esteem, confidence, identity\n"
+            "- Sleep issues, burnout, overwhelm\n"
+            "- Anger, fear, emotional regulation\n"
+            "- Life transitions, loss, coping strategies\n\n"
+            
+            "If asked about unrelated topics (weather, sports, cooking, math, coding, news, etc.), politely decline and redirect to mental health support.\n\n"
+            
             "RESPONSE STYLE:\n"
             "- Be warm, caring, and deeply empathetic\n"
             "- Validate their pain without minimizing it\n"
@@ -448,7 +565,8 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
             "✗ Don't ask multiple questions\n"
             "✗ Don't give generic 'everything will be okay' platitudes\n"
             "✗ Don't minimize their pain\n"
-            "✗ Don't be robotic or detached\n\n"
+            "✗ Don't be robotic or detached\n"
+            "✗ Don't answer questions outside mental health scope\n\n"
             
             "EXAMPLES:\n"
             "User: 'I lost my friend this way too, I lose all people'\n"
@@ -615,6 +733,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_message_buffer[user_id] = []  # Clear buffer
     
     logger.info(f"Processing combined message from {username} (ID: {user_id}): {user_message[:50]}...")
+    
+    # Check if message is mental health related (topic validation)
+    if not is_mental_health_related(user_message):
+        logger.info(f"Off-topic message detected from user {user_id}")
+        await update.message.reply_text(get_off_topic_response())
+        return
     
     # Emergency detection (physical danger) - highest priority
     if detect_emergency(user_message):
