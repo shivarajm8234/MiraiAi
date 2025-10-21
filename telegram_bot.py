@@ -522,7 +522,7 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
         AI-generated empathetic response
     """
     if not api_ready:
-        return get_fallback_response(user_message)
+        return "I'm currently unable to connect to my AI service. Please try again in a moment. If you're in crisis, please call 988 (US) or your local emergency services."
     
     # Rate limiting per user
     current_time = time.time()
@@ -682,8 +682,7 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
             if hasattr(e, 'response') and e.response is not None:
                 logger.error(f"Response status: {e.response.status_code}")
                 logger.error(f"Response body: {e.response.text[:500]}")
-            logger.info("Using fallback response")
-            return get_fallback_response(user_message)
+            return "I'm having trouble connecting right now. Please try again in a moment. If you're in crisis, call 988 (US) or your local emergency services."
         
         ai_response = result["choices"][0]["message"]["content"].strip()
         
@@ -696,11 +695,11 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
         return ai_response
         
     except requests.exceptions.RequestException as e:
-        logger.error(f"OpenRouter API error: {e}")
-        return get_fallback_response(user_message)
+        logger.error(f"API Request error: {e}")
+        return "I'm having trouble connecting right now. Please try again in a moment. If you're in crisis, call 988 (US) or your local emergency services."
     except Exception as e:
         logger.error(f"Error generating AI response: {e}")
-        return get_fallback_response(user_message)
+        return "Something went wrong. Please try again. If you're in crisis, call 988 (US) or your local emergency services."
 
 
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
