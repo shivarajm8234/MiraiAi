@@ -714,8 +714,8 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
                 logger.error(f"Response status: {e.response.status_code}")
                 logger.error(f"Response body: {e.response.text[:500]}")
                 
-                # Handle rate limit (429) - try switching to backup key
-                if e.response.status_code == 429:
+                # Handle rate limit (429) or server errors (500, 502, 503) - try switching to backup key
+                if e.response.status_code in [429, 500, 502, 503]:
                     if switch_to_next_api_key():
                         logger.info("🔄 Retrying with backup API key...")
                         # Retry the request with new key
@@ -749,7 +749,10 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
                             return ai_response
                         except Exception as retry_error:
                             logger.error(f"Backup API key also failed: {retry_error}")
-                            return "All API keys have reached their limits. Please try again in a few minutes, or if you're in crisis, call 988 (US) immediately."
+                            if e.response.status_code == 429:
+                                return "All API keys have reached their limits. Please try again in a few minutes, or if you're in crisis, call 988 (US) immediately."
+                            else:
+                                return "I'm experiencing technical difficulties. Please try again in a moment. If you're in crisis, call 988 (US) immediately."
             
             return "I'm having trouble connecting right now. Please try again in a moment. If you're in crisis, call 988 (US) or your local emergency services."
         
