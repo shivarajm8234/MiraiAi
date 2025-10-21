@@ -353,43 +353,36 @@ def get_fallback_response(user_message: str) -> str:
         user_message: User's message text
         
     Returns:
-        Contextual fallback response (3 lines)
+        Contextual fallback response (paragraph style, 3 lines)
     """
     message_lower = user_message.lower()
     
     # Detect emotional keywords for contextual responses
-    if any(word in message_lower for word in ['anxious', 'anxiety', 'worried', 'stress', 'nervous']):
-        return "I hear that you're feeling anxious.\nThat's a really difficult feeling to carry.\nWhat's weighing on your mind?"
+    if any(word in message_lower for word in ['broke up', 'breakup', 'broke with', 'left me', 'dumped']):
+        if any(word in message_lower for word in ['lonely', 'alone']):
+            return "That raw pain of a fresh breakup combined with crushing loneliness is one of the hardest things to endure. The emptiness where she used to be feels suffocating, and every moment without her feels impossible. Start small: let yourself cry, reach out to one friend today, and take it hour by hour - you will get through this."
+        return "Heartbreak shatters everything you thought you knew about love and yourself. The pain you're feeling right now is valid and real, and it's okay to not be okay. Give yourself permission to grieve this loss, reach out to people who care about you, and remember that healing takes time."
     
-    elif any(word in message_lower for word in ['sad', 'depressed', 'down', 'hopeless', 'empty']):
-        return "I can sense you're going through a tough time.\nYour feelings are valid and real.\nWhat's been happening?"
+    elif any(word in message_lower for word in ['how to overcome', 'what to do', 'idk what', 'guide me', 'help me']):
+        return "Right now, focus on these small steps: 1) Let yourself feel all the emotions without judgment - cry if you need to. 2) Reach out to one person you trust today, even just to say hi. 3) Do one tiny thing you used to enjoy, even if it feels pointless. Healing isn't linear, but you're taking the first steps by reaching out."
     
-    elif any(word in message_lower for word in ['angry', 'mad', 'furious', 'frustrated', 'rage', 'fuck', 'pissed', 'hate']):
-        return "I hear your anger and frustration.\nThose feelings are completely valid.\nI'm here when you're ready to talk."
+    elif any(word in message_lower for word in ['anxious', 'anxiety', 'worried', 'stress', 'nervous', 'panic']):
+        return "That anxiety gripping your chest and racing through your mind is exhausting to carry. Your nervous system is in overdrive, and it's okay to acknowledge how hard this is. Try grounding yourself: name 5 things you can see, 4 you can touch, 3 you can hear - and breathe slowly."
+    
+    elif any(word in message_lower for word in ['sad', 'depressed', 'down', 'hopeless', 'empty', 'worthless']):
+        return "That heavy darkness you're feeling is real, and it takes incredible strength just to keep going when everything feels hopeless. You're not alone in this, even though it feels that way. Please reach out to a therapist or call 988 if you need immediate support - you deserve help."
     
     elif any(word in message_lower for word in ['lonely', 'alone', 'isolated', 'nobody']):
-        return "Feeling alone is one of the hardest things.\nI'm here with you right now.\nYou're not alone in this moment."
+        return "That ache of loneliness cuts deeper than most people understand. Feeling invisible and disconnected from everyone around you is one of the most painful human experiences. You're not alone right now - I'm here, and there are people who would want to be there for you if they knew you were hurting."
     
-    elif any(word in message_lower for word in ['focus', 'concentrate', 'study', 'distracted', 'productivity']):
-        return "Struggling to focus is really common.\nLet's talk about what's making it hard.\nWhat's going on?"
+    elif any(word in message_lower for word in ['angry', 'mad', 'furious', 'frustrated', 'rage', 'fuck', 'pissed', 'hate']):
+        return "That rage burning inside you is valid - anger is often pain turned outward. Whatever happened to trigger this fury, your feelings make sense. Channel it safely: punch a pillow, go for a run, write it all out - but don't let it consume you or hurt others."
     
-    elif any(word in message_lower for word in ['sleep', 'insomnia', 'tired', 'exhausted', 'can\'t sleep']):
-        return "Sleep troubles can affect everything.\nYour exhaustion is real.\nWhat's keeping you up?"
-    
-    elif any(word in message_lower for word in ['relationship', 'breakup', 'broke up', 'left me', 'dumped']):
-        return "Heartbreak is incredibly painful.\nYour feelings are completely valid.\nWant to talk about it?"
-    
-    elif any(word in message_lower for word in ['money', 'bill', 'debt', 'broke', 'financial', 'afford', 'pay', 'expensive']):
-        return "Financial stress is overwhelming.\nThat pressure is real and heavy.\nWhat's happening with your situation?"
-    
-    elif any(word in message_lower for word in ['work', 'job', 'boss', 'fired', 'unemployed', 'career']):
-        return "Work stress can consume everything.\nYour feelings about this are valid.\nWhat's going on at work?"
-    
-    elif any(word in message_lower for word in ['family', 'parents', 'mom', 'dad', 'sibling']):
-        return "Family issues cut deep.\nThose relationships are complicated.\nWhat's happening?"
+    elif any(word in message_lower for word in ['beautiful', 'pretty', 'gorgeous', 'eyes', 'smile', 'miss her', 'miss him']):
+        return "Those beautiful memories of her are bittersweet right now - they remind you of what you've lost and what you're grieving. It's okay to remember the good times while also feeling the pain of her absence. Those feelings can coexist, and both are valid parts of your healing journey."
     
     else:
-        return "I'm here to listen and support you.\nYour feelings matter.\nWhat's on your mind?"
+        return "I hear you, and I want to understand what you're going through. Your emotions are valid, whatever they are. If you can, tell me more about what's weighing on your heart right now - I'm here to listen without judgment."
 
 
 async def analyze_image_with_context(image_data: bytes, caption: str, user_id: int) -> str:
@@ -675,7 +668,12 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
             result = response.json()
             
         except Exception as e:
-            logger.error(f"Groq API error: {e}, using fallback response")
+            logger.error(f"Groq API error: {e}")
+            logger.error(f"Error details: {type(e).__name__}")
+            if hasattr(e, 'response') and e.response is not None:
+                logger.error(f"Response status: {e.response.status_code}")
+                logger.error(f"Response body: {e.response.text[:500]}")
+            logger.info("Using fallback response")
             return get_fallback_response(user_message)
         
         ai_response = result["choices"][0]["message"]["content"].strip()
