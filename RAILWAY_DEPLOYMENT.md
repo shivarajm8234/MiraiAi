@@ -32,12 +32,16 @@ git push origin main
 
    ```
    TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
-   GROQ_API_KEY=your_groq_api_key_here
+   GROQ_API_KEY=your_primary_groq_api_key_here
+   GROQ_API_KEY_1=your_backup_groq_key_1_here
+   GROQ_API_KEY_2=your_backup_groq_key_2_here
    GROQ_MODEL_NAME=llama-3.3-70b-versatile
    GROQ_VISION_MODEL=meta-llama/llama-4-scout-17b-16e-instruct
    ADMIN_CHAT_ID=your_telegram_chat_id (optional)
    PORT=8080
    ```
+
+   **Note**: The bot uses 3 API keys for automatic failover when rate limits are hit. This gives you 300,000 tokens/day total (100k per key).
 
 4. **Deploy**
    - Railway will automatically detect Python and install dependencies

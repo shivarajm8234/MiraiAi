@@ -51,7 +51,19 @@ logger = logging.getLogger(__name__)
 
 # Environment variables
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+# Multiple Groq API keys for backup (automatically switches on rate limit)
+GROQ_API_KEYS = [
+    os.getenv("GROQ_API_KEY"),      # Primary key from .env
+    os.getenv("GROQ_API_KEY_1"),    # Backup key 1 from Railway
+    os.getenv("GROQ_API_KEY_2"),    # Backup key 2 from Railway
+]
+# Remove None values if keys not set
+GROQ_API_KEYS = [key for key in GROQ_API_KEYS if key and key != "your_groq_api_key_here"]
+
+current_api_key_index = 0  # Track which API key we're using
+GROQ_API_KEY = GROQ_API_KEYS[0] if GROQ_API_KEYS else None
+
 GROQ_MODEL_NAME = os.getenv("GROQ_MODEL_NAME", "llama-3.3-70b-versatile")  # Text model
 GROQ_VISION_MODEL = os.getenv("GROQ_VISION_MODEL", "meta-llama/llama-4-scout-17b-16e-instruct")  # Vision model
 ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID")
@@ -182,14 +194,31 @@ EMERGENCY_PATTERNS = [
 api_ready = False
 
 
+def switch_to_next_api_key():
+    """Switch to the next available API key when rate limit is hit."""
+    global current_api_key_index, GROQ_API_KEY
+    
+    if len(GROQ_API_KEYS) <= 1:
+        logger.warning("⚠️ No backup API keys available")
+        return False
+    
+    # Move to next key
+    current_api_key_index = (current_api_key_index + 1) % len(GROQ_API_KEYS)
+    GROQ_API_KEY = GROQ_API_KEYS[current_api_key_index]
+    
+    logger.info(f"🔄 Switched to backup API key #{current_api_key_index + 1}")
+    return True
+
+
 def check_api():
     """Check if Groq API key is configured."""
     global api_ready
     
-    if GROQ_API_KEY and GROQ_API_KEY != "your_groq_api_key_here":
-        logger.info(f"✅ Groq API configured with models:")
-        logger.info(f"   Text: {GROQ_MODEL_NAME}")
-        logger.info(f"   Vision: {GROQ_VISION_MODEL}")
+    if GROQ_API_KEYS and len(GROQ_API_KEYS) > 0:
+        logger.info(f"✅ Groq API configured with {len(GROQ_API_KEYS)} API key(s)")
+        logger.info(f"   Text Model: {GROQ_MODEL_NAME}")
+        logger.info(f"   Vision Model: {GROQ_VISION_MODEL}")
+        logger.info(f"   Currently using API key #{current_api_key_index + 1}")
         api_ready = True
     else:
         logger.warning("Groq API key not configured. Bot will use fallback responses.")
@@ -679,9 +708,49 @@ def generate_ai_response(user_message: str, user_id: int) -> str:
         except Exception as e:
             logger.error(f"Groq API error: {e}")
             logger.error(f"Error details: {type(e).__name__}")
+            
+            # Check for rate limit error and try to switch API key
             if hasattr(e, 'response') and e.response is not None:
                 logger.error(f"Response status: {e.response.status_code}")
                 logger.error(f"Response body: {e.response.text[:500]}")
+                
+                # Handle rate limit (429) - try switching to backup key
+                if e.response.status_code == 429:
+                    if switch_to_next_api_key():
+                        logger.info("🔄 Retrying with backup API key...")
+                        # Retry the request with new key
+                        try:
+                            response = requests.post(
+                                url="https://api.groq.com/openai/v1/chat/completions",
+                                headers={
+                                    "Authorization": f"Bearer {GROQ_API_KEY}",
+                                    "Content-Type": "application/json",
+                                },
+                                json={
+                                    "model": GROQ_MODEL_NAME,
+                                    "messages": messages,
+                                    "temperature": 0.9,
+                                    "max_tokens": 120,
+                                    "top_p": 0.95,
+                                },
+                                timeout=10
+                            )
+                            response.raise_for_status()
+                            result = response.json()
+                            ai_response = result["choices"][0]["message"]["content"].strip()
+                            
+                            # Store in memory
+                            conversation_memory[user_id].append({
+                                "role": "assistant",
+                                "content": ai_response
+                            })
+                            
+                            logger.info("✅ Successfully used backup API key")
+                            return ai_response
+                        except Exception as retry_error:
+                            logger.error(f"Backup API key also failed: {retry_error}")
+                            return "All API keys have reached their limits. Please try again in a few minutes, or if you're in crisis, call 988 (US) immediately."
+            
             return "I'm having trouble connecting right now. Please try again in a moment. If you're in crisis, call 988 (US) or your local emergency services."
         
         ai_response = result["choices"][0]["message"]["content"].strip()
