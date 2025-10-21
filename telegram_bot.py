@@ -260,23 +260,40 @@ def is_mental_health_related(message: str) -> bool:
     if len(message.strip()) < 10:
         return True
     
-    # Check for off-topic patterns (reject these)
-    for pattern in OFF_TOPIC_PATTERNS:
-        if re.search(pattern, message_lower, re.IGNORECASE):
-            return False
-    
-    # Check for mental health keywords (allow these)
+    # Check for mental health keywords FIRST (allow these)
     for keyword in MENTAL_HEALTH_KEYWORDS:
         if keyword in message_lower:
             return True
     
+    # Check for relationship/emotional context indicators (very common in mental health)
+    emotional_context = [
+        'girl', 'boy', 'guy', 'friend', 'boyfriend', 'girlfriend', 'partner',
+        'she', 'he', 'they', 'them', 'her', 'him',
+        'fucked', 'messed', 'screwed', 'ruined', 'destroyed',
+        'mentioned', 'told', 'said', 'talked',
+        'feel', 'feeling', 'felt', 'think', 'thought',
+        'problem', 'issue', 'situation', 'thing', 'whole thing',
+    ]
+    
+    for context in emotional_context:
+        if context in message_lower:
+            return True
+    
+    # Check for off-topic patterns (reject these) - but only if no emotional context
+    for pattern in OFF_TOPIC_PATTERNS:
+        if re.search(pattern, message_lower, re.IGNORECASE):
+            return False
+    
     # If message contains question words but no mental health keywords, it might be off-topic
-    question_words = ['what', 'how', 'when', 'where', 'who', 'why', 'which', 'can you', 'tell me']
+    question_words = ['what', 'how', 'when', 'where', 'who', 'why', 'which', 'can you', 'tell me', 'calculate', 'solve']
     has_question = any(word in message_lower for word in question_words)
     
-    # If it's a question without mental health keywords, likely off-topic
+    # If it's a specific factual question without emotional context, likely off-topic
     if has_question and len(message.split()) > 5:
-        return False
+        # Check if it's asking for facts/calculations
+        factual_indicators = ['capital of', 'what is', 'how many', 'when did', 'where is', 'calculate', 'solve', 'formula']
+        if any(indicator in message_lower for indicator in factual_indicators):
+            return False
     
     # Default: allow (give benefit of doubt for ambiguous messages)
     return True
