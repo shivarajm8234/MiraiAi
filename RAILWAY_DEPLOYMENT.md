@@ -44,11 +44,27 @@ git push origin main
    - It will use the `Procfile` to start your bot
    - Wait for deployment to complete (usually 2-3 minutes)
 
-### 3. Verify Deployment
+### 3. Generate Public URL for Website
+
+1. **In Railway Dashboard:**
+   - Click on your deployed service
+   - Go to "Settings" tab
+   - Scroll to "Networking" section
+   - Click "Generate Domain"
+   - Railway will create a public URL like: `your-app.up.railway.app`
+
+2. **Your website will be live at:**
+   - `https://your-app.up.railway.app/` - Main website
+   - The Telegram bot runs in the background
+
+### 4. Verify Deployment
 
 1. Check the logs in Railway dashboard
-2. Look for: "✅ Bot is running! Press Ctrl+C to stop."
+2. Look for: 
+   - "✅ Bot is running! Press Ctrl+C to stop."
+   - "🌐 Starting web server on port 8080"
 3. Test your bot on Telegram
+4. Visit your generated Railway URL to see the website
 
 ## Important Notes
 
